@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+div{margin:100px auto;font-size: 80px;text-align: center}
+span{color:red; display:inline-block;}
+i{color:#36F; font-style:normal; padding-left:5px; }
+input{position: absolute; margin-left: -50px;left: 50%;top: 250px;width: 120px;height:45px;font-size: 20px;border-radius: 10px;}
+</style>
+<script>
+function rnd(n,m){
+    
+    return n+Math.random()*(m-n);
+};
+function fillZero(n){
+    return n<10?'0'+n:''+n;
+};
+function findInArry(num,arr){
+    for(var i=0;i<arr.length;i++){
+        if(num==arr[i]){
+            return true;    
+        }
+    }
+    
+    return false;
+};
+window.onload=function(){
+    
+    var oBtn=document.getElementById("btn");
+    var oTxt=document.getElementById("txt");
+    var arr2=[];
+    var arr3=[];
+    var oSpan=document.getElementById("span");
+    var oI=document.getElementById("i")
+    var timer=null;
+    
+    function caiPiao(){
+        while(arr2.length<6){
+            var num2=fillZero(parseInt(rnd(1,17)));
+            var num=fillZero(parseInt(rnd(1,34)));
+                if(findInArry(num,arr2)==false){
+                    arr2.push(num);
+                }
+            
+        }
+        arr3.push(num2);
+        oSpan.innerHTML=arr2;
+        oI.innerHTML=arr3;
+        arr2=[];
+        arr3=[]
+    
+    }   
+    
+    
+        
+    oBtn.onclick=function(){
+        timer=setInterval(caiPiao,30);
+        caiPiao();
+        oSpan.innerHTML=arr2;
+        oI.innerHTML=arr3;
+        arr2=[];
+        arr3=[];
+        setTimeout(function(){
+            clearInterval(timer);
+        },500)//过一秒关掉定时器
+    };
+    
+    
+        
+};
+</script>
+</head>
+
+<body style='background:#000;'>
+    <input id="btn" type="button" value="来一注吧" />
+    <div id="txt">
+        <span id="span">10,21,32,4,5,16</span>
+        <i id="i">12</i>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>爆炸轮播图</title>
+<style>
+html{ overflow:hidden;}
+body{ background:#000;}
+#div1{ position:relative;width:700px; height:400px; background:url(img/banner/1.jpg)  no-repeat;  margin:200px auto;}
+#div1 span{ position:absolute;left:0;top:0; background:url(img/banner/0.jpg)  no-repeat; 
+ background-position:0 0; opacity:1;
+}
+
+</style>
+<script>
+
+window.onload = function(){
+    
+    var oDiv = document.getElementById("div1");
+    
+    var R = 4;
+    var C = 7;
+    
+    for(var r = 0; r < R; r++){
+        for(var c = 0; c < C; c++){
+            var oSpan = document.createElement("span");
+            oSpan.style.width = oDiv.offsetWidth/C + "px";
+            oSpan.style.height = oDiv.offsetHeight/R + "px";
+            oDiv.appendChild(oSpan);
+            oSpan.style.left = oSpan.offsetWidth*c + "px";
+            oSpan.style.top  = oSpan.offsetHeight*r + "px";
+
+            oSpan.style.backgroundPosition = -oSpan.offsetLeft + "px " + -oSpan.offsetTop + "px"; 
+        }
+    }
+    
+    
+    
+    var aSpan = oDiv.children;
+    
+    
+    var iNow = 0;
+    
+    setInterval(function(){
+        oDiv.click();
+    },1000)
+    
+    oDiv.onclick = function(){
+        
+        var aSpan = oDiv.children;
+        /*
+            oDiv 显示新图
+            span 显示老图
+        */ 
+        for(var i = 0; i < aSpan.length; i++){
+            aSpan[i].style.opacity = "1";
+            aSpan[i].style.transition = "none";
+            aSpan[i].style.transform = "none";
+            console.log(aSpan[0].style.transform);
+            aSpan[i].style.backgroundImage = "url(img/banner/"+iNow+".jpg)";          
+        }
+     
+        iNow++;
+         
+        if(iNow == 3){
+            iNow = 0;
+        }
+        //显示新图
+        oDiv.style.backgroundImage = "url(img/banner/"+iNow+".jpg)";
+         
+        for(var i = 0; i < aSpan.length; i++){
+            
+            //延迟演示
+            (function(oSpan){
+                setTimeout(function(){
+                    oSpan.style.transition = "1s all ease";
+                    oSpan.style.opacity = "0";
+                    var x = oSpan.offsetWidth/2 + oSpan.offsetLeft - oDiv.offsetWidth/2;
+                    var y  = oSpan.offsetHeight/2 + oSpan.offsetTop - oDiv.offsetHeight/2;
+                    oSpan.style.transform = "translate("+x+"px,"+y+"px) rotateX("+rnd(0,180)+"deg) " + "rotateY("+rnd(0,180)+"deg)";
+                },0);
+            })(aSpan[i]);
+        } 
+    };
+    
+        
+};
+
+function rnd(n,m){
+    return parseInt(Math.random()*(m-n)+n);
+}
+
+</script>
+</head>
+
+<body>
+<div id="div1">
+
+</div>
+
+</body>
+</html>

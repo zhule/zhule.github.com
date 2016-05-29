@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>瀑布流</title>
+<style>
+*{margin:0;padding:0; list-style:none;}
+#div1{width:966px; margin:0 auto;}
+#div1 ul{float:left; width:300px; border:1px solid red; margin:10px;}
+#div1 ul li{width:300px; background:#ccc; margin:10px 0;}
+</style>
+<script>
+
+window.onload = function(){
+    
+    var oDiv = document.getElementById("div1");
+    var aUl  = oDiv.children;//伪数组
+    
+    function createLi(){
+        for(var i = 0; i < 20; i++){
+            var oLi = document.createElement("li");
+            oLi.style.height = parseInt(Math.random()*350 + 50) + "px";
+            
+            
+            //？ 插入aUl[?——最短的那个]
+            
+            var arrUl = [];
+            for(var j = 0; j < aUl.length; j++){
+                arrUl.push(aUl[j]);
+            }
+            
+            arrUl.sort(function(oUl1,oUl2){
+                return oUl1.offsetHeight - oUl2.offsetHeight;
+            });
+            
+            arrUl[0].appendChild(oLi);
+        }
+    }
+    
+    
+    
+    createLi();
+    window.onscroll = function(){
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        
+        var clientH = document.documentElement.clientHeight;
+        var bodyH = document.body.scrollHeight;//内容高度
+        
+        if(bodyH == scrollTop + clientH){
+            //alert("到底了");
+            createLi();
+        }   
+    };
+    
+        
+    
+};
+
+</script>
+</head>
+
+<body>
+
+<div id="div1">
+    <ul></ul>
+    <ul></ul>
+    <ul></ul>
+</div>
+
+</body>
+</html>
